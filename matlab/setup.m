@@ -6,5 +6,6 @@ addpath(pwd);
 addpath(strcat(pwd, '/lib'));
 addpath(strcat(pwd, '/lib/clustering/FUZZCLUST'));
 addpath(strcat(pwd, '/lib/SegTool/SegToolBox/SegToolBox'));
+addpath(strcat(pwd, '/lib/OpenSurf'));
 
 disp '... done'
