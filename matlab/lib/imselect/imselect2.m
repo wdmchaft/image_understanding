@@ -1,4 +1,4 @@
-function varargout = imselect(img,varargin)
+function varargout = imselect2(in_img,varargin)
 %==========================================================================
 %  Author: Andriy Nych ( nych.andriy@gmail.com )
 %  Version: 733250.03649467591
@@ -114,6 +114,8 @@ function varargout = imselect(img,varargin)
 %                   to imSelectROI as first argument.
 %==========================================================================
 
+img = in_img;
+
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % GUI parameters
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -224,6 +226,10 @@ axis image; axis on;
 %=========================================================================
 % Storing handles and other data to safe place
 %=========================================================================
+GP.x1 = [];
+GP.y1 = [];
+GP.x2 = [];
+GP.y2 = [];
 GP.P1   = [];
 GP.P2   = [];
 GP.SP1  = [];
@@ -258,6 +264,10 @@ if ishandle(GP.hFig)
     ROI.Ymax    = GP.SP2(2);
     ROI.DX      = GP.SW;
     ROI.DY      = GP.SH;
+    ROI.x1      = GP.x1;
+    ROI.y1      = GP.y1;
+    ROI.x2      = GP.x2;
+    ROI.y2      = GP.y2;
     % fprintf(' nargin = %g\n',nargin);
     % fprintf('nargout = %g\n',nargout);
     switch nargout
@@ -337,6 +347,10 @@ return;
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function StartOver(src,evt)
 GP = guidata(gcf);
+GP.x1 = [];
+GP.y1 = [];
+GP.x2 = [];
+GP.y2 = [];
 GP.P1 = [];
 GP.P2 = [];
 GP.P1   = [];
@@ -385,13 +399,19 @@ else
             %set(gcf, 'Name',sprintf('[ %06g : %06g ]; P1 = [ %s]; P2 = [ %s]; Width = %06g; Height = %06g;',GP.cx,GP.cy, sprintf('%06g ',GP.SP1), sprintf('%06g ',GP.SP2), GP.SW, GP.SH)  );
             set(gcf, 'Name',sprintf('P1 = [ %s]; P2 = [ %s]; Width = %06g; Height = %06g;',sprintf('%06g ',GP.SP1), sprintf('%06g ',GP.SP2), GP.SW, GP.SH)  );
             DeleteHandleSafely(GP.hCrs); GP.hCrs = [];
-            DeleteHandleSafely(GP.hRct); GP.hRct = [];
+            %DeleteHandleSafely(GP.hRct); GP.hRct = [];
             GP.hRct = caDrawRectangle(...
                 GP.SP1(1),GP.SP1(2),...
                 GP.SP2(1),GP.SP2(2),...
                 'xor', 1, 'k', '-', 'none',...
                 'k',8,'normal',...
                 'selection','','','');
+            GP.x1 = [GP.x1, GP.P1(1)];
+            GP.y1 = [GP.y1, GP.P1(2)];
+            GP.x2 = [GP.x2, GP.P2(1)];
+            GP.y2 = [GP.y2, GP.P2(2)];
+            GP.P1 = [];
+            GP.P2 = [];
             guidata(gcf,GP);
             % FastReturn trick
             if strcmpi(GP.FastReturn_i,'on')
