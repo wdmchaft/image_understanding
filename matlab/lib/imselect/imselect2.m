@@ -38,6 +38,9 @@ function varargout = imselect2(in_img,varargin)
 %             ROI = imSelectROI( img, param1, val1, param2, val2, ...)
 % [ ROI, SelImg ] = imSelectROI( img, param1, val1, param2, val2, ...)
 %
+% NOTE: ONLY USE THE "ROI = ..." version!!! This is a modified and NOT
+%       foolproof version of the original. It supports multiple selection.
+%
 % Displays GUI and returns:
 %
 % SelImg - Selected part of the image passed as first parameter.
@@ -54,6 +57,10 @@ function varargout = imselect2(in_img,varargin)
 %       ROI.DY = ROI.Ymax - ROI.Ymin + 1
 %   ROI.Xrange  - same as [ROI.Xmin:ROI.Xmax]
 %   ROI.Yrange  - same as [ROI.Ymin:ROI.Ymax]
+%   ROI.x1      - x positions of first point of every rectangle in order
+%               - of selection
+%   ROI.y1      - y positions of first point of every rectangle
+%   ROI.x2/y2   - x/y positions of the second point of every rectangle
 %
 %   Selected part can be retrieved from original image as
 %       img( ROI.Xrange, ROI.Yrange, :)
@@ -406,10 +413,10 @@ else
                 'xor', 1, 'k', '-', 'none',...
                 'k',8,'normal',...
                 'selection','','','');
-            GP.x1 = [GP.x1, GP.P1(1)];
-            GP.y1 = [GP.y1, GP.P1(2)];
-            GP.x2 = [GP.x2, GP.P2(1)];
-            GP.y2 = [GP.y2, GP.P2(2)];
+            GP.x1 = [GP.x1, GP.SP1(2)];
+            GP.y1 = [GP.y1, GP.SP1(1)];
+            GP.x2 = [GP.x2, GP.SP2(2)];
+            GP.y2 = [GP.y2, GP.SP2(1)];
             GP.P1 = [];
             GP.P2 = [];
             guidata(gcf,GP);
