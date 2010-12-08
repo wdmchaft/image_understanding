@@ -1,5 +1,12 @@
 function l=LabelWindows(img)
+imgsize = size(img);
+
+if isstr(img)
+    img = imread(img);
+end
+
 ROI = imselect2(img);
+
 labels = zeros(size(img(:,:,1)));
 numpoints = size(ROI.x1);
 numpoints = numpoints(2);
