@@ -10,18 +10,20 @@ if max(size(param.c))==1,
     c = param.c;
     index=randperm(N);
     v=X(index(1:c),:);v = v + 1e-10;
-    v0=X(index(1:c)+1,:);v0 = v0 - 1e-10;
+    v0=X(index(1:c)+1,:);
+    v0 = v0 - 1e-10;
 else
     v = param.c;    
     c = size(param.c,1);
     index=randperm(N);
-    v0=X(index(1:c)+1,:);v0 = v0 + 1e-10;
+    v0=X(index(1:c)+1,:);
+    v0 = v0 + 1e-10;
 end   
 iter=0;  
 while prod(max(abs(v - v0))),
       v0 = v;
      iter =iter+1;
-      %mozgatás
+      %mozgatï¿½s
         %Calculating the distances
          for i = 1:c
             dist(:,i) = sum([(X - repmat(v(i,:),N,1)).^2],2);
@@ -47,7 +49,7 @@ while prod(max(abs(v - v0))),
      end
      J(iter) = sum(sum(f0.*dist));           %calculate objective function  
 
-%            %mozgatás
+%            %mozgatï¿½s
 %         %Calculating the distances
 %          for i = 1:c
 %             dist(:,i) = sum([(X - repmat(v(i,:),N,1)).^2]')';
