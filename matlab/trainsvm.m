@@ -9,5 +9,5 @@ group(:,1) = clusters.data.f(:,1) == 1;
 size(group)
 size(descs)
 %svm = svmtrain(descs(1:200,:), group, 'showplot', true);
-svm = svmtrain(descs, group)
+svm = svmtrain(descs, group, 'showplot', false);
 end
